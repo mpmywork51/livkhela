@@ -1,0 +1,6 @@
+{
+  "name": "LiveKhela",
+  "description": "Premium glassmorphic live HLS sports streaming platform with real-time Firebase dynamic updates and interactive media layouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

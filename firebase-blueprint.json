@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "Match": {
+      "title": "Match",
+      "description": "A live sports streaming match definition",
+      "type": "object",
+      "properties": {
+        "category": { "type": "string", "enum": ["cricket", "football", "others"] },
+        "team1Name": { "type": "string" },
+        "team1Logo": { "type": "string" },
+        "team2Name": { "type": "string" },
+        "team2Logo": { "type": "string" },
+        "server1Url": { "type": "string" },
+        "server2Url": { "type": "string" },
+        "isLive": { "type": "boolean" },
+        "competition": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["category", "team1Name", "team2Name", "server1Url"]
+    },
+    "UpcomingMatch": {
+      "title": "UpcomingMatch",
+      "description": "An upcoming sports match schedule",
+      "type": "object",
+      "properties": {
+        "category": { "type": "string", "enum": ["cricket", "football", "others"] },
+        "team1Name": { "type": "string" },
+        "team1Logo": { "type": "string" },
+        "team2Name": { "type": "string" },
+        "team2Logo": { "type": "string" },
+        "server1Url": { "type": "string" },
+        "server2Url": { "type": "string" },
+        "competition": { "type": "string" },
+        "scheduledTime": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["category", "team1Name", "team2Name", "scheduledTime"]
+    },
+    "Channel": {
+      "title": "Channel",
+      "description": "A live IPTV or TV channel",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "streamUrl1": { "type": "string" },
+        "streamUrl2": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "logoUrl", "streamUrl1"]
+    },
+    "ActiveSession": {
+      "title": "ActiveSession",
+      "description": "An active website session for real-time tracking",
+      "type": "object",
+      "properties": {
+        "lastActive": { "type": "number" },
+        "platform": { "type": "string", "enum": ["Android App", "Website Browser"] },
+        "userAgent": { "type": "string" }
+      },
+      "required": ["lastActive", "platform"]
+    },
+    "GlobalSettings": {
+      "title": "GlobalSettings",
+      "description": "Global application configuration, welcome message, and ads settings",
+      "type": "object",
+      "properties": {
+        "bannerAdEnabled": { "type": "boolean" },
+        "bannerAdCode": { "type": "string" },
+        "popunderAdEnabled": { "type": "boolean" },
+        "popunderAdCode": { "type": "string" },
+        "welcomeTitle": { "type": "string" },
+        "welcomeMessage": { "type": "string" },
+        "telegramUrl": { "type": "string" },
+        "privacyPolicyUrl": { "type": "string" },
+        "termsUrl": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": []
+    }
+  },
+  "firestore": {
+    "matches": {
+      "schema": "Match",
+      "description": "Collection of active live matches"
+    },
+    "upcoming": {
+      "schema": "UpcomingMatch",
+      "description": "Collection of scheduled future matches"
+    },
+    "channels": {
+      "schema": "Channel",
+      "description": "Collection of available linear TV or IPTV channels"
+    },
+    "active_sessions": {
+      "schema": "ActiveSession",
+      "description": "Collection of real-time web & app active user sessions"
+    },
+    "settings": {
+      "schema": "GlobalSettings",
+      "description": "Global config parameters document path"
+    }
+  }
+}

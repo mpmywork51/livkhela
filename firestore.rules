@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global Helper Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             request.auth.token.email == "mp.mywork51@gmail.com";
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // 3. Collection Rules with strict write validations on admin role
+    match /matches/{matchId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(matchId);
+    }
+
+    match /upcoming/{upcomingId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(upcomingId);
+    }
+
+    match /channels/{channelId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(channelId);
+    }
+
+    match /settings/{settingsId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(settingsId);
+    }
+
+    match /active_sessions/{sessionId} {
+      // Only authenticated system admins can read the list of active user sessions
+      allow read: if isAdmin();
+      // Any public visitor (browser or app Webview) can record and update their presence
+      allow create, update: if isValidId(sessionId) && 
+                            request.resource.data.lastActive is number &&
+                            request.resource.data.platform is string;
+      allow delete: if isValidId(sessionId);
+    }
+  }
+}
